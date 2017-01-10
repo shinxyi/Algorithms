@@ -1,0 +1,101 @@
+<html>
+<head>
+  <title>Hash: Load Factor and Select Keys</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script type="text/javascript">
+
+  $(document).ready(function(){
+    function HashMap(capacity){
+      this.capacity = capacity;
+      this.table = [];
+      this.count =0;
+    }
+
+    String.prototype.hashCode = function(){
+      var hash=0;
+      if(this.length ==0){ return hash; }
+      for(i=0; i<this.length; i++){
+        char=this.charCodeAt(i);
+        hash=((hash<<5)-hash)+char;
+        hash &= hash; //Convert -->32b int
+      }
+      return hash;
+    }
+
+    //JS % acts oddly for negatives, so we
+    //define our own and use it this way:
+    function mod(input, div){
+      return (input % div + div ) % div;
+    }
+
+    HashMap.prototype.add = function(key,val, cap=this.capacity){
+      var myHashCode = key.hashCode();
+      var myIdx = mod(myHashCode, cap);
+      if (this.table[myIdx]==undefined){
+        this.table[myIdx]= [[key,val]];
+        this.count++;
+      } else {
+        this.table[myIdx].push([key,val]);
+        this.count++;
+      }
+    }
+
+    //We may eventually want to grow our array size.
+    //create loadFactor() to return an elements/buckets ratio to monitor this
+    HashMap.prototype.loadFactor = function(){
+      var count=0;
+      for(var i=0;i<this.capacity;i++){
+        if(this.table[i]){
+          this.table[i].length>0 ? count++ : false;
+        }
+      }
+      var str="";
+      str+=count;
+      str+="/";
+      str+= this.capacity;
+      return str;
+    }
+
+    //Create method to accept and arry of keys. Reject those keys in the existing map that are
+    //NOT in that array. If your map contains {"cool": "Pariece", "smart": "Pariece", "tall": "Kareem"},
+    //then map.selectKeys(["cool", "smart"]) should change map to {"cool": "Pariece", "smart": "Pariece"}
+
+    HashMap.prototype.selectKeys = function(keys){
+      for(var i=0;i<this.capacity;i++){
+        if(this.table[i]){
+          for(var j=0;j<this.table[i].length;j++){
+            var test=false;
+            for(var x=0;x<keys.length;x++){
+              if(this.table[i][j][0]===keys[x]){
+                test=true;
+                keys.splice(x, 1);
+                break;
+              }
+              if(!test){
+                this.table[i].splice(j, 1);
+              }
+            }
+          }
+        }
+      }
+      return this;
+    }
+
+
+    var myHash = new HashMap(3);
+    myHash.add("animal", "cat");
+    myHash.add("1", "ice cream");
+    myHash.add("blah", "hehe");
+    console.log(myHash.loadFactor());
+
+    console.log(myHash.selectKeys(["animal", "blah"]));
+
+  });
+
+
+  </script>
+</head>
+<body>
+
+</body>
+</html>

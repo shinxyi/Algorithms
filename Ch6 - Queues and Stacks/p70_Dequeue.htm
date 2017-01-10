@@ -1,0 +1,59 @@
+<html>
+<head>
+  <title>Dequeue</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script type="text/javascript">
+
+  //Create SLQueue method dequeue() to remove and return value at front of queue.
+
+  $(document).ready(function(){
+    function Node(val){
+      this.val=val;
+      this.next=null;
+    }
+
+    function SLQueue(){
+      this.head=null;
+      this.tail=null;
+    }
+
+    SLQueue.prototype.enqueue=function(val){
+      if(!this.head){
+        this.head= new Node(val);
+        this.tail=this.head;
+        return this;
+      }
+      this.tail.next=new Node(val);
+      this.tail=this.tail.next;
+      return this;
+    }
+
+    SLQueue.prototype.dequeque = function(){
+      if(!this.head){
+        return false;
+      }
+      var temp=this.head;
+      this.head=this.head.next;
+      temp.next=null;
+      return temp;
+    }
+
+    var slq = new SLQueue;
+    slq.enqueue(1).enqueue(2).enqueue(3);
+    console.log(slq);
+
+    console.log(slq.dequeque());
+    console.log(slq.dequeque());
+    console.log(slq.dequeque());
+    console.log(slq.dequeque());
+
+
+  });
+
+
+  </script>
+</head>
+<body>
+
+</body>
+</html>

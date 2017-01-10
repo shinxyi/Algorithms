@@ -1,0 +1,35 @@
+<html>
+<head>
+  <title>Recursive String: In-Order Subsets</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script type="text/javascript">
+
+  $(document).ready(function(){
+    //Create strSubsets(str) - return an array with every possible in-order
+    //character subset of str. The resultant array itself need not be in any order.
+    //So given "abc", return an array that includes...
+    //["", "c", "b", "bc", "a", "ac", "ab", "abc"]
+
+    function rStr(string, sub="", arr=[]){
+      if(string==""){
+        arr.push(sub);
+      }else{
+        rStr(string.substring(1), sub, arr);
+        sub += string.slice(0,1);
+        rStr(string.substring(1),sub, arr);
+      }
+      return arr;
+    }
+
+    console.log(rStr("abc"));
+
+
+  });
+
+
+  </script>
+</head>
+<body>
+
+</body>
+</html>

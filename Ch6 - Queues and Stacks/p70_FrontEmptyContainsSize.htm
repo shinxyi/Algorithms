@@ -1,0 +1,96 @@
+<html>
+<head>
+  <title>Front, Empty, Contains, Size</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script type="text/javascript">
+
+  $(document).ready(function(){
+    function Node(val){
+      this.val=val;
+      this.next=null;
+    }
+
+    function SLQueue(){
+      this.head=null;
+      this.tail=null;
+    }
+
+    SLQueue.prototype.enqueue=function(val){
+      if(!this.head){
+        this.head= new Node(val);
+        this.tail=this.head;
+        return this;
+      }
+      this.tail.next=new Node(val);
+      this.tail=this.tail.next;
+      return this;
+    }
+
+    SLQueue.prototype.dequeque = function(){
+      if(!this.head){
+        return false;
+      }
+      var temp=this.head;
+      this.head=this.head.next;
+      temp.next=null;
+      return temp;
+    }
+
+    SLQueue.prototype.front = function(){
+      return this.head? this.head.val : null;
+    }
+
+    SLQueue.prototype.isEmpty = function(){
+      return this.head? false : true;
+    }
+
+    SLQueue.prototype.contains = function(val){
+      if(!this.head){
+        return false;
+      }
+      var current=this.head;
+      while(current){
+        if(val==current.val){
+          return current;
+        }
+        current=current.next;
+      }
+      return false;
+    }
+
+    SLQueue.prototype.size = function(){
+      if(!this.head){
+        return 0;
+      }
+      var current=this.head;
+      var count=0;
+      while(current){
+        count++;
+        current=current.next;
+      }
+      return count;
+    }
+
+    var slq = new SLQueue;
+    slq.enqueue(1).enqueue(2).enqueue(3);
+    console.log(slq);
+
+    console.log(slq.size());
+    console.log(slq.isEmpty());
+    console.log(slq.contains(3));
+    console.log(slq.contains(0));
+    console.log(slq.front());
+
+    var slq2 = new SLQueue;
+    console.log(slq2.isEmpty());
+
+
+  });
+
+
+  </script>
+</head>
+<body>
+
+</body>
+</html>

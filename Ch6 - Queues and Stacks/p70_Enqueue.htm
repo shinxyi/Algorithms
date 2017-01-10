@@ -1,0 +1,43 @@
+<html>
+<head>
+  <title>Enqueue</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script type="text/javascript">
+
+  //Create SLQueue method enqueue(val) to add the given val to end of our queue.
+
+  $(document).ready(function(){
+    function Node(val){
+      this.val=val;
+      this.next=null;
+    }
+
+    function SLQueue(){
+      this.head=null;
+      this.tail=null;
+    }
+
+    SLQueue.prototype.enqueue=function(val){
+      if(!this.head){
+        this.head= new Node(val);
+        this.tail=this.head;
+        return this;
+      }
+      this.tail.next=new Node(val);
+      this.tail=this.tail.next;
+      return this;
+    }
+
+    var slq = new SLQueue;
+    slq.enqueue(1).enqueue(2).enqueue(3);
+    console.log(slq);
+
+  });
+
+
+  </script>
+</head>
+<body>
+
+</body>
+</html>

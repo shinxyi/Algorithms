@@ -1,0 +1,163 @@
+<html>
+<head>
+  <title></title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script type="text/javascript">
+
+  $(document).ready(function(){
+
+    function Set() {
+      this.dataStore = [];
+    }
+
+    // Write a functions that simply returns the dataStore
+    Set.prototype.getData = function() {
+      return this.dataStore = [];
+    }
+
+    // Write a helper function that will check if the member of a set already exists
+    Set.prototype.include = function(value) {
+      for(var i=0; i<this.dataStore.length; i++){
+        if(this.dataStore[i]===value){
+          return true;
+        }
+      }
+      return false;
+    }
+
+    // Write a function that will add members to the set. Remember the definition of a set
+    Set.prototype.add = function(value){
+      if(!this.include(value)){
+        this.dataStore.push(value);
+      }
+      return this;
+    }
+
+    // Write a function that will remove a member of a set
+    Set.prototype.remove = function(value) {
+      var idx = this.indexOf(value);
+      if(idx>0){
+        this.dataStore.splice(idx, 1);
+        return value;
+      }
+      return false;
+    }
+
+    // Write the union function. Remember, it should return a new set
+    Set.prototype.union = function(set) {
+      var newSet = new Set();
+
+      for(var i=0;i<this.dataStore.length;i++){
+        newSet.dataStore.push(this.dataStore[i]);
+      }
+      for(var i=0; i<set.dataStore.length;i++){
+        if(!(newSet.include(set.dataStore[i]))){
+          newSet.dataStore.push(set.dataStore[i])
+        }
+      }
+      return newSet;
+    }
+
+    // Write the intersection function. Remember, it should return a new set
+    Set.prototype.intersection = function(set) {
+      var set3 = new Set();
+      var long = this;
+      var short = set;
+
+      if (this.dataStore.length < set.dataStore.length){
+        long = set;
+        short = this;
+      }
+
+      //The point of setting short and long above is because if one of the two
+      //sets is much larger than the other, it wouldn't make sense to iterate through
+      //the longer set to see what is included in both.
+
+      for(var i=0; i<short.dataStore.length;i++){
+        if(long.include(short.dataStore[i])){
+          set3.add(short.dataStore[i]);
+        }
+      }
+      return set3;
+    }
+
+    // Write the difference function. Remember, it should return a new set
+    Set.prototype.difference = function(set) {
+      var set3 = new Set();
+      for(var i=0; i<this.dataStore.length;i++){
+        if(!(set.include(this.dataStore[i]))){
+          set3.add(this.dataStore[i]);
+        }
+      }
+      return set3;
+    }
+
+    //Write the subset function that checks if a set is a subset or not.
+    //If the proposed subset's length is greater than the set itself, it can't be a susbet.
+    Set.prototype.subset= function(set){
+      if(set.dataStore.length>this.dataStore.length){
+        return false;
+      }
+
+      for(var i=0;i<set.dataStore.length;i++){
+        if(!this.include(set.dataStore[i])){
+          return false;
+        }
+      }
+      return true;
+    }
+
+    Set.prototype.interleave = function(set){
+      var newSet = new Set;
+      var short = this;
+      var long = set;
+
+      if(this.dataStore.length>set.dataStore.length){
+        long=this;
+        short=set;
+      }
+
+      var current=long;
+      var check = 0;
+
+      for(var i=0;i<long.dataStore.length;i++){
+        console.log('Count: ', i);
+
+        if(i<short.dataStore.length){
+
+          current = (current == short) ? long : short;
+          newSet.dataStore.push(current.dataStore[i]);
+
+          if(check == 0 ){
+            check++;
+            i--;
+          }else{
+            check = 0;
+          }
+
+        }else{
+          newSet.dataStore.push(long.dataStore[i]);
+
+        }
+
+      }
+      return newSet;
+    }
+
+    var mySet = new Set();
+    mySet.add(1).add(2).add(3);
+
+    var mySet2 = new Set();
+    mySet2.add(3).add(4).add(5).add(6).add(7);
+
+    console.log(mySet.interleave(mySet2));
+
+  });
+
+
+  </script>
+</head>
+<body>
+
+</body>
+</html>

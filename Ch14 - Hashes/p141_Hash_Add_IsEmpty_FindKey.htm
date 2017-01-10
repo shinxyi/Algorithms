@@ -1,0 +1,76 @@
+<html>
+<head>
+  <title>Hash: Add</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script type="text/javascript">
+
+  $(document).ready(function(){
+    function HashMap(capacity){
+      this.capacity = capacity;
+      this.table = [];
+      this.count =0;
+    }
+
+    String.prototype.hashCode = function(){
+      var hash=0;
+      if(this.length ==0){ return hash; }
+      for(i=0; i<this.length; i++){
+        char=this.charCodeAt(i);
+        hash=((hash<<5)-hash)+char;
+        hash &= hash; //Convert -->32b int
+      }
+      return hash;
+    }
+
+    //JS % acts oddly for negatives, so we
+    //define our own and use it this way:
+    function mod(input, div){
+      return (input % div + div ) % div;
+    }
+
+    HashMap.prototype.add = function(key,val){
+      var myHashCode = key.hashCode();
+      var myIdx = mod(myHashCode, this.capacity);
+      if (this.table[myIdx]==undefined){
+        this.table[myIdx]= [[key,val]];
+        this.count++;
+      } else {
+        this.table[myIdx].push([key,val]);
+        this.count++;
+      }
+    }
+
+    HashMap.prototype.isEmpty = function(){
+      return this.count==0 ? true: false;
+    }
+
+    HashMap.prototype.find = function(key){
+      var myHashCode = key.hashCode();
+      var myIdx = mod(myHashCode, this.capacity);
+      for(var i=0; i< this.table[myIdx].length;i++){
+        if(this.table[myIdx][i][0]===key){
+          return this.table[myIdx][i][1];
+        }
+      }
+      return false;
+    }
+
+    var myHash = new HashMap(3);
+    console.log(myHash.isEmpty());
+    myHash.add("animal", "cat");
+    myHash.add("1", "ice cream");
+    myHash.add("blah", "hehe");
+    console.log(myHash.isEmpty());
+    console.log(myHash);
+    console.log(myHash.find("dog"));
+    console.log(myHash.find("1"));
+
+  });
+
+
+  </script>
+</head>
+<body>
+
+</body>
+</html>

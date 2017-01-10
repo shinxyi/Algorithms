@@ -1,0 +1,174 @@
+<html>
+<head>
+  <title>Byte of CS</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script type="text/javascript">
+
+  $(document).ready(function(){
+
+
+    // returns position of wanted number in the array
+    //if wanted number isn't found, returns false
+
+    /*
+    function linearSearch(wanted, arr){
+      for(var x=0;x<arr.length;x++){
+        if(arr[x]===wanted){
+          return x;
+        }
+      }
+      return false;
+    }
+
+    var arr = [24, 8, 23, 3];
+    console.log(linearSearch(8, arr));   // => 1
+    console.log(linearSearch(-99, arr)); // => false
+    */
+
+    //returns sum of number and all numbers down to one
+
+    /*
+    function iSum(n){
+      var sum=0;
+      while(n>0){
+        sum+=n;
+        n--;
+      }
+      return sum;
+    }
+
+    console.log(iSum(5));
+    */
+
+    //returns product of number and all numbers down to one
+
+    /*
+    function iFactorial(n){
+      var product=1;
+      while(n>1){
+        product*=n;
+        n--;
+      }
+      return product;
+    }
+
+    console.log(iFactorial(5));
+    */
+
+    //RECURSIVELY
+    //returns product of number and all numbers down to one
+
+    /*
+    function rFactorial(n){
+      if(n===1){
+        return 1;
+      }else{
+        return n*rFactorial(n-1);
+      }
+    }
+
+    console.log(rFactorial(5));
+    */
+
+    //returns Fibonacci sum based on position
+    // iFibonacci(0) = 0           => 0
+    // iFibonacci(1) = 1           => 1
+    // iFibonacci(2) = 1           => 1
+    // iFibonacci(3) = 1 + 1       => 2
+    // iFibonacci(4) = 1 + 2       => 3
+    // iFibonacci(5) = 2 + 3       => 5
+    // iFibonacci(6) = 3 + 5       => 8
+
+    /*
+    function iFib(n){
+      if(n==0){ return 0; }
+      if(n==1){ return 1; }
+      var a = 0;
+      var b = 1;
+      var temp;
+      while(n>1){
+        temp=b;
+        b=a+b;
+        a=temp;
+        n--;
+      }
+
+      return b;
+
+    }
+
+    console.log(iFib(6));
+    */
+
+    //RECURSIVELY
+    /*
+    function rFib(n){
+      if(n==0){ return 0; }
+      if(n==1){ return 1; }
+      return rFib(n-1) + rFib(n-2);
+    }
+
+    console.log(rFib(6));
+
+    */
+
+    //RECURSIVELY
+    //binary search for number in array
+    /*
+    function rBS(arr, wanted, min, max){
+      if(max<min){ return false; }
+      var mid = Math.floor((max+min)/2);
+      if(arr[mid]===wanted){
+        return mid;
+      }else if(wanted>arr[mid]){
+        return rBS(arr, wanted, mid+1, max);
+      }else{
+        return rBS(arr, wanted, min, mid-1);
+      }
+    }
+
+    var arr = [-90,-19,0,2,12,29,33,190,320];
+    console.log(rBS(arr, 5, 0, 8));              //=> false
+    console.log(rBS(arr, 12, 0, 8));            //=> 4
+    console.log(rBS(arr, 0, 0, 8));              //=> 2
+    console.log(rBS(arr, 190, 0, 8));            //=> 7
+
+    */
+
+    //binary search for number in array
+
+    function iBS(arr, wanted){
+      var min=0;
+      var max=arr.length-1;
+
+      while(max>min){
+        var mid=Math.floor((min+max)/2);
+
+        if(wanted===arr[mid]){
+          return mid;
+        }else if(wanted>arr[mid]){
+          min=mid+1;
+        }else{
+          max=mid-1;
+        }
+      }
+
+      return false;
+    }
+
+
+    var arr = [-90,-19,0,2,12,29,33,190,320];
+    console.log(iBS(arr, 5));              //=> false
+    console.log(iBS(arr, 12));            //=> 4
+    console.log(iBS(arr, 0));              //=> 2
+    console.log(iBS(arr, 190));            //=> 7
+
+  });
+
+
+  </script>
+</head>
+<body>
+
+</body>
+</html>

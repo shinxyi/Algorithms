@@ -1,0 +1,128 @@
+<html>
+<head>
+  <title>Hash: Add</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script type="text/javascript">
+
+  $(document).ready(function(){
+    function HashMap(capacity){
+      this.capacity = capacity;
+      this.table = [];
+      this.count =0;
+    }
+
+    String.prototype.hashCode = function(){
+      var hash=0;
+      if(this.length ==0){ return hash; }
+      for(i=0; i<this.length; i++){
+        char=this.charCodeAt(i);
+        hash=((hash<<5)-hash)+char;
+        hash &= hash; //Convert -->32b int
+      }
+      return hash;
+    }
+
+    //JS % acts oddly for negatives, so we
+    //define our own and use it this way:
+    function mod(input, div){
+      return (input % div + div ) % div;
+    }
+
+    HashMap.prototype.add = function(key,val, cap=this.capacity){
+      var myHashCode = key.hashCode();
+      var myIdx = mod(myHashCode, cap);
+      if (this.table[myIdx]==undefined){
+        this.table[myIdx]= [[key,val]];
+        this.count++;
+      } else {
+        this.table[myIdx].push([key,val]);
+        this.count++;
+      }
+    }
+
+    HashMap.prototype.remove = function(key){
+      var hc = key.hashCode();
+      var idx = mod(hc, this.capacity);
+
+      for(var i=0; i<this.table[idx].length;i++){
+        if(this.table[idx][i][0]===key){
+          var temp=this.table[idx].splice(i,1);
+          return temp[1];
+        }
+      }
+      return null;
+    }
+
+    HashMap.prototype.addMap = function(map, replace){
+      for(var i=0;i<map.capacity; i++){
+        if(map.table[i]){
+          for(var j=0;j<map.table[i].length;j++){
+            var key=map.table[i][j][0];
+            var val=map.table[i][j][1];
+            if(replace){
+              this.remove(key);
+            }
+            this.add(key, val);
+          }
+        }
+      }
+      return this;
+    }
+
+    HashMap.prototype.grow = function(){
+      var newCap= Math.floor(this.capacity*1.5);
+      var track= [];
+      for(var i=0;i<this.capacity;i++){
+        if(this.table[i]){
+          for(var x=0; x<this.table[i].length;x++){
+            var key= this.table[i][x][0];
+            var val=this.table[i][x][1];
+            var kCode=key.hashCode();
+            if(track.indexOf(kCode)<0){
+              track.push(kCode);
+              this.remove(key);
+              this.add(key, val, newCap);
+            }
+          }
+        }
+      }
+      this.capacity = newCap;
+      return this;
+    }
+
+
+    var myHash = new HashMap(3);
+    myHash.add("animal", "cat");
+    myHash.add("1", "ice cream");
+    myHash.add("blah", "hehe");
+    // console.log(myHash);
+    console.log(myHash.remove("1"));
+    // console.log(myHash);
+
+    console.log(myHash.remove("1"));
+    // console.log(myHash);
+
+    var myHash2 = new HashMap(5);
+    myHash2.add("1", "ice cream");
+    myHash2.add(":3", "cat");
+    myHash2.add("blah", "whoop");
+    // console.log(myHash2);
+
+    // myHash.addMap(myHash2, true);
+    // console.log(myHash);
+    // myHash.addMap(myHash2, false);
+    // console.log(myHash);
+
+    myHash.grow();
+    console.log(myHash);
+
+
+  });
+
+
+  </script>
+</head>
+<body>
+
+</body>
+</html>

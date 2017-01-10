@@ -1,0 +1,104 @@
+<html>
+<head>
+  <title>Redorder Absolute Queue</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script type="text/javascript">
+
+  $(document).ready(function(){
+    //create a standalone function that accepts a Queue of numbers, sequenced in absolute-value, order, such as
+    // (10,-20,30,-40,50). Using only an additional Stack for storage, reorder the Queue alvues so that they are in increasing ong order,
+    //such as (-40,-20,10,30,50)
+
+    function CirQueue(cap){
+      this.head = -1;
+      this.tail = -1;
+      this.capacity = cap;
+      this.arr = [];
+    }
+
+    CirQueue.prototype.enqueue = function(val){
+      if(this.head-this.tail==1||this.head==0&&this.tail==(this.capacity-1)){
+        return false;
+      }
+
+      if(this.head==-1){
+        this.arr[0]=val;
+        this.head=0;
+        this.tail=0;
+        return this;
+      }
+
+      if(this.tail==(this.capacity-1)){
+        this.arr[0]=val;
+        this.tail=0;
+      }else{
+        this.arr[this.tail+1]=val;
+        this.tail++;
+      }
+
+      return this;
+    }
+
+    CirQueue.prototype.dequeue = function(){
+      if(this.head==-1){
+        return null;
+      }
+      var temp= this.arr[this.head];
+      if(this.head==this.tail){
+        this.head=-1;
+        this.tail=-1;
+        return temp;
+      }
+      this.arr[this.head]=null;
+      if(this.head==this.capacity-1){
+        this.head=0;
+      }else{
+        this.head++;
+      }
+      return temp;
+    }
+
+    CirQueue.prototype.isFull = function(){
+      if((this.head-this.tail==1)||(this.head==0&&this.tail==this.capacity-1)){
+        return true;
+      }
+      return false;
+    }
+
+    CirQueue.prototype.reorderAbsQueue = function(){
+      var stack=[];
+      do{
+        if(this.arr[this.head]>0){
+          this.enqueue(this.dequeue());
+        }else{
+          stack.push(this.dequeue());
+        }
+      } while(this.head>0);
+
+      while(stack.length>0){
+        this.enqueue(stack.pop());
+
+      }
+
+      while(this.arr[this.head]>0){
+        this.enqueue(this.dequeue());
+      }
+      return this.arr;
+    }
+
+    var aQ = new CirQueue(5);
+    aQ.enqueue(10).enqueue(-20).enqueue(30).enqueue(-40).enqueue(50);
+    console.log('!!!', aQ.arr);
+    aQ.reorderAbsQueue();
+    console.log(aQ.arr);
+
+
+  });
+
+
+  </script>
+</head>
+<body>
+
+</body>
+</html>

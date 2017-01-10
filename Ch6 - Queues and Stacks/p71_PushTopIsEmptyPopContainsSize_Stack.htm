@@ -1,0 +1,64 @@
+<html>
+<head>
+  <title>Push, Top, isEmpty, Pop, Contains, Size (for stack)</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script type="text/javascript">
+
+  $(document).ready(function(){
+
+    var arr = []
+    function push(val){
+      arr[arr.length]=val;
+    }
+
+    function top(){
+      return arr[arr.length-1];
+    }
+
+    function isEmpty(){
+      if(arr.length===0){
+        return true;
+      }
+      return false;
+    }
+
+    function pop(){
+      var temp=arr[arr.length-1];
+      arr.length=arr.length-1;
+      return temp;
+    }
+
+    function contains(val){
+      for(var i=0;i<arr.length;i++){
+        if(arr[i]===val){
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function size(){
+      return arr.length;
+    }
+
+    console.log(arr);
+    console.log(isEmpty());
+    push(5);
+    push(6);
+    push(7);
+    console.log(top());
+    console.log(isEmpty());
+    console.log(pop());
+    console.log(arr);
+    console.log(contains(7));
+    console.log(contains(6));
+    console.log(size());
+  });
+
+
+  </script>
+</head>
+<body>
+
+</body>
+</html>

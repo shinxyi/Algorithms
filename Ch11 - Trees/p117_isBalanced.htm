@@ -1,0 +1,89 @@
+<html>
+<head>
+  <title>Height</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script type="text/javascript">
+
+  //A BTNode is balanced if heights of its left subtree and right subtree differ by at most one
+
+  $(document).ready(function(){
+    function BST(){
+      this.root=null;
+    }
+
+    function BTNode(val){
+      this.val=val;
+      this.left=null;
+      this.right=null;
+    }
+
+    BST.prototype = {
+
+      adding: function(val){
+        if(this.root===null){
+          this.root = new BTNode(val);
+          return this;
+        }
+
+        var current=this.root;
+
+        while(current){
+          if(val<=current.val){
+            if(!current.left){
+              current.left = new BTNode(val);
+              return this;
+            }else{
+              current=current.left;
+            }
+          }else{
+            if(!current.right){
+              current.right = new BTNode(val);
+              return this;
+            }else{
+              current=current.right;
+            }
+          }
+        }
+      },
+
+      isBalanced: function(){
+        if(!this.root){
+          return true;
+        }
+
+        var left = rHeight(this.root.left);
+        var right = rHeight(this.root.right);
+        if(Math.abs(left-right)<=1){
+          return true;
+        }
+        return false;
+      }
+    }
+
+    tree = new BST();
+    console.log(tree);
+    tree.adding(10).adding(2).adding(5).adding(30);
+    console.log(tree);
+
+    function rHeight (current){
+      if(!current){
+        return 0;
+      }
+      return 1+Math.max(rHeight(current.left), rHeight(current.right));
+    }
+
+    console.log(tree.isBalanced());
+
+    tree.adding(31).adding(32).adding(33);
+    console.log(tree.isBalanced());
+
+
+  });
+
+
+  </script>
+</head>
+<body>
+
+</body>
+</html>
